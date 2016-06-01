@@ -99,7 +99,7 @@ static struct ConfigDef ConnVarsSsl[] = {
 #if defined(USE_SSL_GNUTLS)
 static struct ConfigDef ConnVarsGnutls[] = {
   // clang-format off
-  { "ssl_ca_certificates_file", DT_PATH|DT_PATH_FILE, 0, 0, NULL,
+  { "ssl_ca_certificates_file", DT_PATH|DT_PATH_FILE, IP "/etc/ssl/certs/ca-bundle.crt", 0, NULL,
     "File containing trusted CA certificates"
   },
   { "ssl_min_dh_prime_bits", DT_NUMBER|DT_NOT_NEGATIVE, 0, 0, NULL,
