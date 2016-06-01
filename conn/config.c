@@ -58,7 +58,7 @@ static struct ConfigDef ConnVarsSsl[] = {
   { "certificate_file", DT_PATH|DT_PATH_FILE, IP "~/.mutt_certificates", 0, NULL,
     "File containing trusted certificates"
   },
-  { "ssl_ciphers", DT_STRING, 0, 0, NULL,
+  { "ssl_ciphers", DT_STRING, IP "@SYSTEM", 0, NULL,
     "Ciphers to use when using SSL"
   },
   { "ssl_client_cert", DT_PATH|DT_PATH_FILE, 0, 0, NULL,

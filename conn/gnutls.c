@@ -761,35 +761,38 @@ static int tls_set_priority(struct TlsSockData *data)
   else
     mutt_buffer_strcpy(priority, "NORMAL");
 
-  const bool c_ssl_use_tlsv1_3 = cs_subset_bool(NeoMutt->sub, "ssl_use_tlsv1_3");
-  if (!c_ssl_use_tlsv1_3)
+  if (c_ssl_ciphers && (strcmp(c_ssl_ciphers, "@SYSTEM") == 0))
   {
-    nproto--;
-    mutt_buffer_addstr(priority, ":-VERS-TLS1.3");
-  }
-  const bool c_ssl_use_tlsv1_2 = cs_subset_bool(NeoMutt->sub, "ssl_use_tlsv1_2");
-  if (!c_ssl_use_tlsv1_2)
-  {
-    nproto--;
-    mutt_buffer_addstr(priority, ":-VERS-TLS1.2");
-  }
-  const bool c_ssl_use_tlsv1_1 = cs_subset_bool(NeoMutt->sub, "ssl_use_tlsv1_1");
-  if (!c_ssl_use_tlsv1_1)
-  {
-    nproto--;
-    mutt_buffer_addstr(priority, ":-VERS-TLS1.1");
-  }
-  const bool c_ssl_use_tlsv1 = cs_subset_bool(NeoMutt->sub, "ssl_use_tlsv1");
-  if (!c_ssl_use_tlsv1)
-  {
-    nproto--;
-    mutt_buffer_addstr(priority, ":-VERS-TLS1.0");
-  }
-  const bool c_ssl_use_sslv3 = cs_subset_bool(NeoMutt->sub, "ssl_use_sslv3");
-  if (!c_ssl_use_sslv3)
-  {
-    nproto--;
-    mutt_buffer_addstr(priority, ":-VERS-SSL3.0");
+    const bool c_ssl_use_tlsv1_3 = cs_subset_bool(NeoMutt->sub, "ssl_use_tlsv1_3");
+    if (!c_ssl_use_tlsv1_3)
+    {
+      nproto--;
+      mutt_buffer_addstr(priority, ":-VERS-TLS1.3");
+    }
+    const bool c_ssl_use_tlsv1_2 = cs_subset_bool(NeoMutt->sub, "ssl_use_tlsv1_2");
+    if (!c_ssl_use_tlsv1_2)
+    {
+      nproto--;
+      mutt_buffer_addstr(priority, ":-VERS-TLS1.2");
+    }
+    const bool c_ssl_use_tlsv1_1 = cs_subset_bool(NeoMutt->sub, "ssl_use_tlsv1_1");
+    if (!c_ssl_use_tlsv1_1)
+    {
+      nproto--;
+      mutt_buffer_addstr(priority, ":-VERS-TLS1.1");
+    }
+    const bool c_ssl_use_tlsv1 = cs_subset_bool(NeoMutt->sub, "ssl_use_tlsv1");
+    if (!c_ssl_use_tlsv1)
+    {
+      nproto--;
+      mutt_buffer_addstr(priority, ":-VERS-TLS1.0");
+    }
+    const bool c_ssl_use_sslv3 = cs_subset_bool(NeoMutt->sub, "ssl_use_sslv3");
+    if (!c_ssl_use_sslv3)
+    {
+      nproto--;
+      mutt_buffer_addstr(priority, ":-VERS-SSL3.0");
+    }
   }
 
   if (nproto == 0)
