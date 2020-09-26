@@ -66,12 +66,6 @@ License: GPLv2+ and Public Domain
 Group: Applications/Internet
 # git snapshot created from https://github.com/neomutt/neomutt
 Source: %{version}.tar.gz
-Source1: mutt_ldap_query
-Patch1: mutt-1.5.18-muttrc.patch
-Patch2: mutt-1.5.21-cabundle.patch
-Patch3: mutt-1.5.23-system_certs.patch
-Patch4: mutt-1.5.23-ssl_ciphers.patch
-Patch5: neomutt-2019-rhel.patch
 
 Url: https://neomutt.org/
 Requires: mailcap, urlview
@@ -116,17 +110,6 @@ messages.
 %prep
 # unpack; cd
 %setup -q -n %{name}-%{version}
-%patch1 -p1 -b .muttrc
-%patch2 -p1 -b .cabundle
-%patch3 -p1 -b .system_certs
-%if ! 0%{?rhel}
-%patch4 -p1 -b .ssl_ciphers
-%endif
-%if 0%{?rhel}
-%patch5 -p1 -b .rhel
-%endif
-
-install -p -m644 %{SOURCE1} mutt_ldap_query
 
 # Create a release date based on the rpm version
 echo -n 'const char *ReleaseDate = ' > reldate.h
@@ -188,7 +171,7 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/neomutt
 
 %files -f %{name}.lang
 %config(noreplace) %{_sysconfdir}/neomuttrc
-%doc docs/CODE_OF_CONDUCT.md ChangeLog* LICENSE.md README* INSTALL.md mutt_ldap_query
+%doc docs/CODE_OF_CONDUCT.md ChangeLog* LICENSE.md README* INSTALL.md
 %doc contrib/*.rc contrib/sample.* contrib/colors.*
 %doc docs/neomuttrc.*
 %doc docs/manual.txt docs/smime-notes.txt
