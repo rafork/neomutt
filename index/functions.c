@@ -85,6 +85,7 @@
 #endif
 
 static const char *Not_available_in_this_menu = N_("Not available in this menu");
+static int filler_color = 0;
 
 /**
  * enum ResolveMethod - How to advance the cursor
@@ -257,11 +258,17 @@ static int op_compose_to_sender(struct IndexSharedData *shared,
 static int op_create_alias(struct IndexSharedData *shared,
                            struct IndexPrivateData *priv, int op)
 {
+  struct MuttWindow *win = filler_window_new(filler_color % 8);
+  msgcont_push_window(win);
+  filler_color++;
+
+#if 0
   struct AddressList *al = NULL;
   if (shared->email && shared->email->env)
     al = mutt_get_address(shared->email->env, NULL);
   alias_create(al, shared->sub);
   menu_queue_redraw(priv->menu, MENU_REDRAW_CURRENT);
+#endif
 
   return FR_SUCCESS;
 }
@@ -275,6 +282,11 @@ static int op_create_alias(struct IndexSharedData *shared,
  */
 static int op_delete(struct IndexSharedData *shared, struct IndexPrivateData *priv, int op)
 {
+  struct MuttWindow *win = msgcont_pop_window();
+  if (win)
+    filler_color--;
+  mutt_window_free(&win);
+#if 0
   /* L10N: CHECK_ACL */
   if (!check_acl(shared->mailbox, MUTT_ACL_DELETE, _("Can't delete message")))
     return FR_ERROR;
@@ -297,7 +309,7 @@ static int op_delete(struct IndexSharedData *shared, struct IndexPrivateData *pr
   {
     resolve_email(priv->menu, shared, RESOLVE_NEXT_UNDELETED);
   }
-
+#endif
   return FR_SUCCESS;
 }
 
